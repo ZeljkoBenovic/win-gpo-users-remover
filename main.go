@@ -10,9 +10,10 @@ import (
 )
 
 type Users struct {
-	userAcc      []string
-	newAdminName string
-	newAdminPass string
+	userAcc             []string
+	newAdminName        string
+	newAdminPass        string
+	removeAllLocalUsers bool
 }
 
 func main() {
@@ -26,7 +27,9 @@ func main() {
 	}
 
 	// delete all local user accounts
-	users.deleteAllLocalUsers()
+	if users.removeAllLocalUsers {
+		users.deleteAllLocalUsers()
+	}
 
 	// create new admin user
 	if err := users.createAdminUser(); err != nil {
@@ -88,6 +91,7 @@ func (u *Users) createAdminUser() error {
 func (u *Users) processUserInput() {
 	flag.StringVar(&u.newAdminPass, "admin-pass", "P@ssw0rd", "the password to be set for new user account")
 	flag.StringVar(&u.newAdminName, "admin-name", "SecureAdmin", "the username for new admin account")
+	flag.BoolVar(&u.removeAllLocalUsers, "remove-users", true, "delete all local user accounts")
 	flag.Parse()
 }
 
