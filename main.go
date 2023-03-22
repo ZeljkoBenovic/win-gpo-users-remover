@@ -13,7 +13,7 @@ type Users struct {
 	userAcc             []string
 	newAdminName        string
 	newAdminPass        string
-	removeAllLocalUsers bool
+	removeAllLocalUsers int
 }
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 	}
 
 	// delete all local user accounts
-	if users.removeAllLocalUsers {
+	if users.removeAllLocalUsers == 1 {
 		users.deleteAllLocalUsers()
 	}
 
@@ -91,7 +91,7 @@ func (u *Users) createAdminUser() error {
 func (u *Users) processUserInput() {
 	flag.StringVar(&u.newAdminPass, "admin-pass", "P@ssw0rd", "the password to be set for new user account")
 	flag.StringVar(&u.newAdminName, "admin-name", "SecureAdmin", "the username for new admin account")
-	flag.BoolVar(&u.removeAllLocalUsers, "remove-users", true, "delete all local user accounts")
+	flag.IntVar(&u.removeAllLocalUsers, "remove-users", 1, "set to 1 to delete all local user accounts")
 	flag.Parse()
 }
 
